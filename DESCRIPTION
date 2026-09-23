@@ -22,7 +22,7 @@ Depends:
 Imports: 
     commonmark,
     htmltools,
-    muiMaterial (>= 0.2.2),
+    muiMaterial (>= 0.2.2.9000),
     utils,
     yaml
 Suggests:
@@ -32,4 +32,6 @@ Suggests:
     servr,
     testthat (>= 3.0.0)
 Config/testthat/edition: 3
+Remotes:
+    lgnbhl/muiMaterial
 VignetteBuilder: knitr
