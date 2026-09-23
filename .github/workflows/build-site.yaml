@@ -2,10 +2,8 @@
 ## repository whose Pages serve felixluginbuhl.com. The site's source is inst/site/ — the
 ## same tree the package ships and mui_create_site() copies.
 ##
-## Nothing here touches docs/: that is the package reference, built and committed by
-## pkgdown.yaml and served by this repository's own Pages.
-##
-## The target repository holds other trees, written by other pipelines. The sync below is
+## The target repository holds other trees, written by other pipelines - among them
+## muiPersonalWebsite/, the package reference pkgdown.yaml publishes. The sync below is
 ## scoped to exactly the top-level entries this build produced, so those are never in scope.
 ##
 ## Gated on R-CMD-check: a push to main publishes only once the package it builds with has
@@ -94,6 +92,9 @@ jobs:
           # The trailing /. copies the contents, dotfiles (.nojekyll) included.
           cp -a dist/. _target/
 
+      # Other pipelines push to the same branch - pkgdown.yaml, often on the same push, and
+      # the other packages' references - so a push can lose the race. They write disjoint
+      # entries, so rebasing onto theirs and pushing again is always safe.
       - name: Publish
         working-directory: _target
         run: |
@@ -102,7 +103,12 @@ jobs:
           git add -A
           if git diff --staged --quiet; then
             echo "the built site is unchanged"
-          else
-            git commit -m "Publish felixluginbuhl.com [skip ci]"
-            git push
+            exit 0
           fi
+          git commit -m "Publish felixluginbuhl.com [skip ci]"
+          for attempt in 1 2 3 4 5; do
+            git push && exit 0
+            sleep $((attempt * 5))
+            git pull --rebase
+          done
+          exit 1

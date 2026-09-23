@@ -1,15 +1,15 @@
-## Builds the package reference into docs/, which this repository's GitHub Pages serve, and
-## commits it when it changed. `destination: docs` in _pkgdown.yml is what puts it there.
+## Builds the package reference and publishes it into muiPersonalWebsite/ in
+## lgnbhl/lgnbhl.github.io, whose Pages serve felixluginbuhl.com - so the reference is at
+## https://felixluginbuhl.com/muiPersonalWebsite/, the `url` in _pkgdown.yml. The other
+## packages' references sit beside it the same way, each written by its own repository.
 ##
 ## The personal site is a separate tree with a separate pipeline: build-site.yaml builds
-## inst/site/ and publishes it into lgnbhl.github.io. The two shared docs/ once, and the
-## clean rebuild at the end of that build deleted the reference on the way past.
+## inst/site/ and publishes it into the root of the same repository. Each workflow replaces
+## only what it owns - this one the muiPersonalWebsite/ folder, that one the entries its
+## build produced - so neither can delete the other's files.
 on:
   push:
     branches: [main]
-    # The commit this workflow makes must not start it again.
-    paths-ignore:
-      - 'docs/**'
   release:
     types: [published]
   workflow_dispatch:
@@ -17,7 +17,7 @@ on:
 name: pkgdown
 
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: pkgdown
@@ -44,18 +44,44 @@ jobs:
           extra-packages: any::pkgdown, local::.
           needs: website
 
+      # build_site(), not build_site_github_pages(): the latter writes a CNAME from `url`,
+      # and the only CNAME that counts is the one build-site.yaml writes at the root.
       - name: Build the package reference
         run: pkgdown::build_site(new_process = FALSE, install = FALSE)
         shell: Rscript {0}
 
-      - name: Commit the built reference
+      # Write access comes from the deploy key build-site.yaml uses, held here as
+      # SITE_DEPLOY_KEY. GITHUB_TOKEN cannot reach another repository.
+      - name: Check out the site repository
+        uses: actions/checkout@v4
+        with:
+          repository: lgnbhl/lgnbhl.github.io
+          ssh-key: ${{ secrets.SITE_DEPLOY_KEY }}
+          path: _target
+
+      # Delete then copy, so a page removed from the reference is removed from the site.
+      - name: Replace the reference
+        run: |
+          rm -rf _target/muiPersonalWebsite
+          cp -a docs _target/muiPersonalWebsite
+
+      # Other pipelines push to the same branch - build-site.yaml, often on the same push,
+      # and the other packages' references - so a push can lose the race. They write
+      # disjoint folders, so rebasing onto theirs and pushing again is always safe.
+      - name: Publish
+        working-directory: _target
         run: |
           git config user.name  "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add docs
+          git add -A muiPersonalWebsite
           if git diff --staged --quiet; then
             echo "the built reference is unchanged"
-          else
-            git commit -m "Build reference [skip ci]"
-            git push
+            exit 0
           fi
+          git commit -m "Publish muiPersonalWebsite reference [skip ci]"
+          for attempt in 1 2 3 4 5; do
+            git push && exit 0
+            sleep $((attempt * 5))
+            git pull --rebase
+          done
+          exit 1

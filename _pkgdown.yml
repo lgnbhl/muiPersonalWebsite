@@ -1,8 +1,8 @@
-# The reference is served by this repository's own GitHub Pages, out of docs/. With a CNAME on
-# lgnbhl.github.io it sits under the same domain as the personal site, one directory down —
-# which is why the url below carries the repository name. The site itself is a separate tree,
-# built from inst/site/ and published to lgnbhl.github.io by build-site.yaml; the reference is
-# no longer copied into it.
+# The reference is built into docs/ and published by pkgdown.yaml into muiPersonalWebsite/ in
+# lgnbhl.github.io, one directory down from the personal site on the same domain - which is
+# why the url below carries the repository name. docs/ itself is a build output and is not
+# committed. The site is a separate tree, built from inst/site/ and published to the root of
+# lgnbhl.github.io by build-site.yaml.
 url: https://felixluginbuhl.com/muiPersonalWebsite/
 destination: docs
 

@@ -3,9 +3,10 @@
 .RData
 .Ruserdata
 
-# The personal site, built from inst/site/. docs/ is the package reference, which is
-# committed by pkgdown.yaml, so it must not be ignored.
+# The personal site, built from inst/site/, and the package reference, built into docs/ -
+# both published to lgnbhl.github.io by the workflows, never committed here.
 dist/
+docs/
 
 # R CMD check leftovers.
 *.Rcheck/
