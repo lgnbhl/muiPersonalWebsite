@@ -68,10 +68,6 @@ sections:
     title: R packages
     nav: tools
     variant: intro_cards
-    intro: |
-      Each of these started as a script I got tired of rewriting — a dataset to fetch, a
-      chart to build, an interface to wire up — and ended up small enough to hand to
-      somebody else.
     data: content/packages.yml
     columns: 4
     hero: true
