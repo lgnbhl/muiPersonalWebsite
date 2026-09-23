@@ -1,0 +1,47 @@
+# The applications band (`variant: showcase`). An app names as many screenshots as it has
+# under `shots:`; each `src` is a path in the assets tree, and `{slug}` expands the way it
+# does everywhere else, so a whole app's screenshots live under one folder named after it.
+items:
+  - slug: sgtourism
+    title: St.Gallen Tourism App
+    description: The official St.Gallen Tourism Dashboard R Shiny app.
+    image: logo-sgtourism.png
+    date: '2025-02-18'
+    primary:
+      label: The app
+      href: https://ffssg.shinyapps.io/sgtourismus/
+    secondary:
+      label: The docs
+      href: https://statistiksg.github.io/sgtourism/
+    shots:
+      - src: apps/{slug}/overview.png
+        caption: The overview - key figures for the canton against Switzerland
+      - src: apps/{slug}/charts.png
+        caption: Overnight stays by month, with tables by country of origin
+      - src: apps/{slug}/details.png
+        caption: The details page - supply, demand and occupancy by region
+      - src: apps/{slug}/trends.png
+        caption: Ten-year trends for establishments, beds and business size
+      - src: apps/{slug}/mobile.png
+        caption: The same dashboard on a phone
+  - slug: muiPersonalWebsite
+    title: Personal Website with MUI
+    description: A template to create your personal website using muiMaterial.
+    date: '2026-09-09'
+    primary:
+      label: The website
+      href: https://felixluginbuhl.com
+    secondary:
+      label: The docs
+      href: https://felixluginbuhl.com/muiPersonalWebsite/
+    shots:
+      - src: apps/{slug}/home.png
+        caption: The hero, in plain HTML over a honeycomb of packages
+      - src: apps/{slug}/applications.png
+        caption: The applications band - cards on one side, screenshots on the other
+      - src: apps/{slug}/packages.png
+        caption: The packages band, a grid of MUI cards
+      - src: apps/{slug}/talks.png
+        caption: The talks band, an accordion of past talks
+      - src: apps/{slug}/mobile.png
+        caption: The same page on a phone

@@ -1,0 +1,46 @@
+# The reference is served by this repository's own GitHub Pages, out of docs/. With a CNAME on
+# lgnbhl.github.io it sits under the same domain as the personal site, one directory down —
+# which is why the url below carries the repository name. The site itself is a separate tree,
+# built from inst/site/ and published to lgnbhl.github.io by build-site.yaml; the reference is
+# no longer copied into it.
+url: https://felixluginbuhl.com/muiPersonalWebsite/
+destination: docs
+
+template:
+  bootstrap: 5
+
+reference:
+  - title: Getting started
+    desc: Starting a site, and building one.
+    contents:
+      - mui_create_site
+      - mui_build_site
+  - title: Configuration
+    desc: >
+      What mui.config.yml says, what it falls back to, and the configuration the
+      build is currently using.
+    contents:
+      - mui_read_config
+      - mui_default_config
+      - mui_config
+  - title: Design
+    desc: The one palette both halves of the site read.
+    contents:
+      - mui_theme
+  - title: Section variants
+    desc: >
+      How a section draws its items. These are the components a `variants` entry of
+      your own returns, and the ones it replaces.
+    contents:
+      - mui_card
+      - mui_accordion
+      - mui_showcase
+      - mui_list
+      - mui_prose
+  - title: Building a page of your own
+    desc: >
+      The shell every page carries and the writer that turns one into a file - the pair
+      a site needs to render a page this package does not build for it.
+    contents:
+      - mui_app_shell
+      - mui_render_page

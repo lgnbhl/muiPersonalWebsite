@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+# The personal site, built from inst/site/. docs/ is the package reference, which is
+# committed by pkgdown.yaml, so it must not be ignored.
+dist/
+
+# R CMD check leftovers.
+*.Rcheck/

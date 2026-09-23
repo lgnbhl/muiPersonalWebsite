@@ -1,0 +1,108 @@
+## Builds the personal site and publishes it into the root of lgnbhl/lgnbhl.github.io, the
+## repository whose Pages serve felixluginbuhl.com. The site's source is inst/site/ — the
+## same tree the package ships and mui_create_site() copies.
+##
+## Nothing here touches docs/: that is the package reference, built and committed by
+## pkgdown.yaml and served by this repository's own Pages.
+##
+## The target repository holds other trees, written by other pipelines. The sync below is
+## scoped to exactly the top-level entries this build produced, so those are never in scope.
+##
+## Gated on R-CMD-check: a push to main publishes only once the package it builds with has
+## passed its checks, so a broken commit never reaches the live site. pkgdown's own commits
+## carry [skip ci], so they start no check and so no publish either.
+on:
+  workflow_run:
+    workflows: [R-CMD-check]
+    types: [completed]
+    branches: [main]
+  workflow_dispatch:
+
+name: build-site
+
+permissions:
+  contents: read
+
+# A push while a build is running makes the running one obsolete: only the newest tree is
+# worth publishing.
+concurrency:
+  group: build-site
+  cancel-in-progress: true
+
+jobs:
+  build-site:
+    # Every matrix leg of the check has to pass, and only for a push: R-CMD-check also runs
+    # on pull requests, whose code must never be published.
+    if: >-
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.workflow_run.conclusion == 'success' &&
+       github.event.workflow_run.event == 'push')
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+
+    steps:
+      # The commit that was checked, not whatever main has moved on to since.
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha || github.sha }}
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: local::.
+
+      # warn = 2 turns every build warning into an error: a missing asset, a bundle left
+      # untrimmed or a placeholder url is a site that should not be published as it is.
+      #
+      # The analytics id is added here and nowhere else: inst/site/ ships inside the package,
+      # and a copy built by anybody else must not report into this site's account.
+      - name: Build the site
+        env:
+          COUNTERDEV_ID: a716cbfd-cc3f-4318-82e4-82a949a69789
+        run: |
+          Rscript -e '
+            options(warn = 2)
+            config <- muiPersonalWebsite::mui_read_config("inst/site/mui.config.yml")
+            config$counterdev <- list(id = Sys.getenv("COUNTERDEV_ID"), utcoffset = 2)
+            muiPersonalWebsite::mui_build_site("dist", input = "inst/site", config = config)
+          '
+
+      # Write access comes from a deploy key on the target repository, held here as
+      # SITE_DEPLOY_KEY. GITHUB_TOKEN cannot reach another repository.
+      - name: Check out the site repository
+        uses: actions/checkout@v4
+        with:
+          repository: lgnbhl/lgnbhl.github.io
+          ssh-key: ${{ secrets.SITE_DEPLOY_KEY }}
+          path: _target
+
+      # Delete then copy, one top-level entry at a time, so a page removed from the source is
+      # removed from the site — without a hardcoded list of what this site owns, and without
+      # ever naming, or reaching, a tree some other pipeline writes.
+      #
+      # The one thing this cannot do is notice an entry that stopped being built: it is no
+      # longer in dist, so nothing deletes it from the target. Remove such a leftover by
+      # hand, once.
+      - name: Replace the site's own files
+        run: |
+          find dist -mindepth 1 -maxdepth 1 -printf '%P\0' |
+            while IFS= read -r -d '' entry; do rm -rf "_target/$entry"; done
+          # The trailing /. copies the contents, dotfiles (.nojekyll) included.
+          cp -a dist/. _target/
+
+      - name: Publish
+        working-directory: _target
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --staged --quiet; then
+            echo "the built site is unchanged"
+          else
+            git commit -m "Publish felixluginbuhl.com [skip ci]"
+            git push
+          fi

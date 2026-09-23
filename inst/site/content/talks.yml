@@ -1,0 +1,157 @@
+items:
+  - title: The CORSTAT R Working Group - Swiss Statistics Meeting 2025
+    event: Swiss Statistics Meeting 2025
+    event_url: https://www.statistiktage.ch/en/
+    date: '2025-11-06'
+    location: Geneva, Switzerland
+    description: 'Poster "The CORSTAT R Working Group: Expanding statistical collaboration
+      in Switzerland" presented at the Swiss Statistics Meeting 2025 in Geneva.'
+    abstract: |-
+      The CORSTAT R Working Group was established to unite R experts from municipal and cantonal statistical offices across Switzerland, enhancing the application of the R programming language in statistical practices. Established at the end of 2023, the group has rapidly grown to become the largest CORSTAT working group, with nearly 40 members representing 20 statistical offices. While R remains the primary focus, the group is now expanding its scope to incorporate additional open-source programming languages such as Python and Julia, AI tools for coding, versioning systems and integrated development environments.
+
+      The group aims to foster collaboration by not only sharing knowledge but also by developing and maintaining essential tools and resources. Its key objectives include creating a robust network for knowledge exchange, establishing a further education network for skill development, enhancing the quality of statistical outputs, and streamlining production processes through a national code base for shared use across various open-source programming languages. Activities involve peer reviewing and co-developing software packages, as well as ensuring their ongoing maintenance. We invite all interested statistical offices to join this initiative and contribute to enhancing the use of open-source programming languages in statistical work throughout Switzerland.
+    links:
+      - name: PDF poster
+        url: talks/swiss-statistics-geneva-corstat/poster_CORSTAT.pdf
+      - name: Meetup
+        url: https://www.statistiktage.ch/en/
+  - title: I14Y R package Poster - Swiss Statistics Meeting 2025
+    event: Swiss Statistics Meeting 2025
+    event_url: https://www.statistiktage.ch/en/
+    date: '2025-11-06'
+    location: Geneva, Switzerland
+    description: 'Poster "I14Y: An R package to access data from the Interoperability
+      Platform of Switzerland" presented at the Swiss Statistics Meeting 2025 in Geneva.'
+    abstract: |-
+      Search and download I14Y data in multiple languages with 1 line of code.
+
+      The I14Y R package provides access to Switzerland's national data catalogue, the Interoperability Platform (I14Y), enabling statisticians and data analysts to efficiently search and retrieve official Swiss metadata across federal, cantonal, and communal levels using the R programming language.
+
+      The package leverages the platform's IOP API and Console API to offer comprehensive functionality including: searching for statistical concepts and nomenclatures, retrieving codelists (such as NOGA classifications), accessing dataset metadata and data structures, and downloading nomenclature levels—all available in four national languages (German, French, Italian, and English).
+
+      A key strength is its complementary relationship with the BFS R package for Swiss Federal Statistical Office data. This poster demonstrates practical applications, including a use case where I14Y facilitates the translation of German NOGA division categories when analysing income data by profession and gender obtained through BFS, showcasing how the package enhances cross-linguistic statistical analysis.
+
+      By simplifying access to Switzerland's centralized metadata repository with intuitive R functions, the I14Y R package participates to promote data harmonization and reduces barriers for statistical offices, researchers, and analysts working with Swiss official statistics. The package contributes to Switzerland's digital transformation in statistics, fostering better data discovery, understanding, and reuse across linguistic and institutional boundaries.
+
+      The I14Y R package is an open source software hosted on both GitHub and CRAN, with comprehensive documentation available online. This accessibility ensures researchers and practitioners can easily access, contribute to, and implement the package in their data workflows.
+    links:
+      - name: PDF poster
+        url: talks/swiss-statistics-geneva-i14y/poster_I14Y.pdf
+      - name: Rmd poster
+        url: talks/swiss-statistics-geneva-i14y/poster_I14Y.Rmd
+      - name: I14Y documentation
+        url: https://felixluginbuhl.com/I14Y/
+      - name: GitHub
+        url: https://github.com/lgnbhl/I14Y
+      - name: Meetup
+        url: https://www.statistiktage.ch/en/
+  - title: How to use Material UI with R shiny
+    event: Geneva R-Lunches Meetup
+    date: '2025-04-09'
+    location: Geneva, Switzerland
+    description: Meetup organized by R-Lunches at the University of Geneva.
+    links:
+      - name: Slides
+        url: talks/geneva-r-lunches-shinyMaterialUI/presentation.html
+      - name: Meetup
+        url: https://www.linkedin.com/posts/felixluginbuhl_next-r-lunches-activity-7315386661645807616-PWZx?utm_source=share&utm_medium=member_desktop&rcm=ACoAAA6WA5EBOC1RAwKvRi3973B-VPE1u0qf8NU
+  - title: R Shiny in Production - Swiss Statistics Meeting 2024
+    event: Swiss Statistics Meeting 2024
+    event_url: https://www.statistiktage.ch/en/
+    date: '2024-09-05'
+    location: Aarau, Switzerland
+    description: 'Gave the talk "R Shiny in Production: The St.Gallen Tourism Dashboard"
+      at the Swiss Statistics Meeting 2024 in Aarau.'
+    abstract: The Statistical Office of Canton St.Gallen is producing cantonal tourism
+      statistics on a monthly basis since 2005. In 2023, we decided to transition
+      data reporting from static Excel sheets to an interactive R Shiny Dashboard,
+      which we successfully launched in early 2024. At the same time, we made the
+      underlying code publicly available on swissstatsr.org and GitHub1). In this
+      talk, we will share our experience developing an R Shiny Web application using
+      Posit (formerly RStudio) infrastructure and the golem framework and demonstrate
+      how these powerful tools facilitate the release of R Shiny into production.
+    links:
+      - name: YouTube
+        url: https://www.youtube.com/live/KuKcOd1OlL0?t=7021
+      - name: sgtourism dashboard
+        url: https://github.com/statistikSG/sgtourism/
+      - name: Meetup
+        url: https://stat.ch/fr/swiss_statistics_meeting
+  - title: From St. Gallen into the R-Universe — towards a national collaboration
+      platform for official statistics
+    event: adminR Meetup
+    event_url: https://www.meetup.com/adminr/events/300899643/
+    date: '2024-06-06'
+    location: Bern, Switzerland
+    description: Meetup organized by adminR and hosted by the Federal Office of Public
+      Health.
+    abstract: In this talk, we will present the new R infrastructure at the Statistical
+      Office of Canton St. Gallen, the current stage of the ongoing R transformation
+      and our vision for the future of official statistics. We will focus on the new
+      R working group within CORSTAT, the conference of the of regional statistical
+      offices in Switzerland — and its role within adminR. The R working group was
+      initiated by the Statistical Offices of Canton St. Gallen and Canton Zürich
+      to further foster collaboration among the 17 participating cantons and cites
+      to better coordinate their nationwide R-transformation. We present the new collaboration
+      platform swissstatsr.org and its corresponding R-Universe infrastructure for
+      package monitoring and development. Finally, we highlight several ways to join
+      our initiative and to contribute to the open code development for the greater
+      good.
+    links:
+      - name: Slides
+        url: https://github.com/swiss-adminR/202406_slides/blob/main/adminR_240606.pdf
+      - name: Meetup
+        url: https://www.meetup.com/adminr/events/300899643/
+  - title: 'How to Create Interactive Maps with R. Use Case: Swiss maps'
+    event: Geneva R-Lunches Meetup
+    event_url: https://www.linkedin.com/events/r-lunches-howtocreateinteractiv7173646192260640769/
+    date: '2024-03-26'
+    location: Geneva, Switzerland
+    description: Meetup organized by R-Lunches at the University of Geneva.
+    links:
+      - name: Slides
+        url: talks/geneva-r-lunches/presentation.html
+      - name: Meetup
+        url: https://www.linkedin.com/events/r-lunches-howtocreateinteractiv7173646192260640769/
+  - title: Swiss Statistics Meeting - BFS R package Poster
+    event: Swiss Statistics Meeting
+    event_url: https://www.statistiktage.ch/en/
+    date: '2023-09-02'
+    location: Basel, Switzerland
+    description: The Swiss Statistical Days 2023 took place at the University of Basel
+      and is organised by the Federal Statistical Office (BFS).
+    links:
+      - name: PDF poster
+        url: talks/swiss-statistics/poster_BFS.pdf
+      - name: Rmd poster
+        url: talks/swiss-statistics/poster_BFS.Rmd
+      - name: Meetup
+        url: https://www.statistiktage.ch/images/pdfs/2023/Programm_Statistiktage_2023.pdf
+  - title: BFS R package - Search and download data from the Swiss Federal Statistical
+      Office
+    event: adminR Meetup
+    event_url: https://www.meetup.com/fr-FR/adminr/events/293128972/
+    date: '2023-05-25'
+    location: Zürich, Switzerland
+    description: Meetup organized by adminR, Digital Society Initiative DSI and the
+      Statistical Office of Zürich.
+    abstract: The BFS R package allows to explore and access Swiss public data in
+      a dynamic and reproducible way. Users can discover the latest BFS datasets available,
+      extract their metadata and download them in any language (German, French, Italian
+      or English) directly from the R console.
+    links:
+      - name: Slides
+        url: talks/adminr-zurich/slides.html
+      - name: Meetup
+        url: https://www.meetup.com/fr-FR/adminr/events/293128972/
+  - title: R Blogging - Sharing my year-long experience using the tidyverse ecosystem
+    event: Geneva R Users Meetup
+    event_url: https://www.meetup.com/fr-FR/adminr/events/293128972/
+    date: '2018-06-05'
+    location: Geneva, Switzerland
+    description: Meetup organized by Geneva R Users with the support of the EPFL Extension
+      School at Campus Biotech.
+    links:
+      - name: Meetup
+        url: https://www.meetup.com/fr-FR/geneve-r-user-group/events/251469770/
+

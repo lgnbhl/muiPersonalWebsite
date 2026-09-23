@@ -1,0 +1,130 @@
+# The R packages band, and the honeycomb behind the hero.
+#
+# Every package states its own two URLs. The convention is `/{slug}/` for the reference and
+# github.com/lgnbhl/{slug} for the source, but a package whose docs live somewhere else —
+# CRAN, another organisation, a site of its own — says so on its own item rather than being
+# left with a link that resolves nowhere.
+defaults:
+  fit: contain
+items:
+  - slug: muiMaterial
+    title: muiMaterial R package
+    description: Build 'Material UI' interfaces in 'shiny' and 'Quarto'
+    image: muiMaterial-logo.png
+    date: '2026-09-05'
+    primary:
+      label: Docs
+      href: /muiMaterial/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/muiMaterial
+  - slug: reactRouter
+    title: reactRouter R package
+    description: Share url pages using 'React Router' in 'shiny' and 'Quarto'
+    image: reactRouter-logo.png
+    date: '2025-04-29'
+    primary:
+      label: Docs
+      href: /reactRouter/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/reactRouter
+  - slug: I14Y
+    title: I14Y R package
+    description: Search and Get Data from the I14Y Interoperability Platform of Switzerland
+    image: I14Y-logo.png
+    date: '2025-03-05'
+    primary:
+      label: Docs
+      href: /I14Y/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/I14Y
+  - slug: xlcharts
+    title: xlcharts R package
+    description: Create Native Excel Charts and Work with Microsoft Excel Files
+    image: xlcharts-logo.png
+    date: '2024-04-22'
+    primary:
+      label: Docs
+      href: /xlcharts/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/xlcharts
+  - slug: BFS
+    title: BFS R package
+    description: Search and download data from the Swiss Federal Statistical Office
+    image: BFS-logo.png
+    date: '2024-01-01'
+    primary:
+      label: Docs
+      href: /BFS/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/BFS
+  - slug: colornames
+    title: colornames R package
+    description: Convert Color Values into Color Names
+    image: colornames-logo.png
+    date: '2023-08-26'
+    primary:
+      label: Docs
+      href: /colornames/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/colornames
+  - slug: gotop
+    title: gotop R package
+    description: Add a scroll back to top icon to R Markdown and Shiny apps
+    image: gotop-logo.png
+    date: '2021-09-20'
+    primary:
+      label: Docs
+      href: /gotop/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/gotop
+  - slug: aos
+    title: aos R package
+    description: Animate on Scroll Library for Shiny
+    image: aos-logo.png
+    date: '2021-02-27'
+    primary:
+      label: Docs
+      href: /aos/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/aos
+  - slug: scroller
+    title: scroller R package
+    description: Scroll to any element in your Shiny apps
+    image: scroller-logo.png
+    date: '2021-02-24'
+    primary:
+      label: Docs
+      href: /scroller/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/scroller
+  - slug: aniview
+    title: aniview R package
+    description: Animate Shiny content when it comes into view
+    image: aniview-logo.png
+    date: '2020-12-10'
+    primary:
+      label: Docs
+      href: /aniview/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/aniview
+  - slug: polyglot
+    title: polyglot R package
+    description: Use the R console as an interactive learning environment
+    image: polyglot-logo.png
+    date: '2020-05-17'
+    primary:
+      label: Docs
+      href: /polyglot/
+    secondary:
+      label: Source
+      href: https://github.com/lgnbhl/polyglot

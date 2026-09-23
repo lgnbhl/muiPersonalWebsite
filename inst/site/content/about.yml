@@ -1,0 +1,10 @@
+# The about band (`variant: prose`). One item, no title, no links, no date: a band that is a
+# piece of writing rather than a list of things. `body` is markdown, rendered inside the same
+# `.prose` the article pages use, so a link or a list here reads exactly as one does there.
+items:
+  - body: |-
+      I am a data scientist and R developer based in Switzerland.
+
+      I write about data analysis at
+      [felixanalytix](https://felixanalytix.substack.com), and everything I build is on
+      [GitHub](https://github.com/lgnbhl) under a licence that lets you take it.

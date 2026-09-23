@@ -1,0 +1,339 @@
+/* Styles for the server-rendered half of each page: the hero, prose, title blocks and
+   footer. MUI owns everything else, through the theme in R/theme.R.
+
+   The palette is NOT defined here. R/theme.R is its single definition and emits it as
+   custom properties into each page's <head>; the rules below only consume them. Every one
+   of those is prefixed `--site-`, which keeps them clear of the `--mui-*` namespace MUI
+   owns in its CSS-variables mode. The `--hex-*` properties below are this file's own. */
+
+
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+/* Anchors land under the sticky app bar without this — and every bar link is an anchor,
+   so this is what makes the bar's own jumps land where they read. 80px = the 64px Toolbar
+   plus a little air. */
+.scroll-anchor { scroll-margin-top: 80px; }
+/* The wordmark's target. The hero starts *below* the bar, so scrolling to it flush leaves
+   the page 64px down rather than at the top; a margin bigger than that offset asks for a
+   position above the document start, which the browser clamps to 0 — a real top. */
+#top { scroll-margin-top: 200px; }
+/* The body margin is muiMaterialPage's: it writes <style>body{margin:0}</style> from its
+   `styleBody` default, statically, so there is nothing to repeat here. CssBaseline sets the
+   ground and the type again from the theme, but only once React has mounted — these are the
+   same values, in the stylesheet, so the page paints right on the first frame. */
+body {
+  background: var(--site-bg);
+  color: var(--site-ink);
+  font-family: var(--site-sans);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px 72px; }
+/* The home page's <main> has no .wrap — its bands run edge to edge — so the hero carries
+   the width and top padding .wrap used to give it. Same numbers, so the hero's full-height
+   geometry below is unchanged. */
+.hero-wrap { max-width: 1100px; margin: 0 auto; padding: 40px 20px 0; }
+
+
+/* --- prose ------------------------------------------------------------------------ */
+/* For a page that carries its own <h1> in the body rather than in its title block. The
+   body is markdown, so this is the one heading the theme's typography does not reach. */
+.prose h1 {
+  font-family: var(--site-serif); font-weight: 600;
+  font-size: clamp(2.1rem, 1.4rem + 2.6vw, 3.2rem);
+  line-height: 1.06; letter-spacing: -0.03em; margin: 0 0 20px;
+  text-align: center;
+}
+.prose h2 { font-family: var(--site-serif); font-weight: 600; font-size: 1.6rem; letter-spacing: -0.015em; margin: 2.2em 0 0.6em; }
+.prose h3 { font-family: var(--site-serif); font-weight: 600; font-size: 1.25rem; margin: 1.8em 0 0.5em; }
+.prose p { margin: 0 0 1.1em; }
+/* Scoped to .prose, and it must stay that way: .prose is the one class that only ever
+   wraps server-rendered markdown. A looser anchor rule reaches MUI's own components and
+   repaints them — blue card text, invisible contained-button labels. */
+.prose a { color: var(--site-primary); text-underline-offset: 2px; }
+.prose img { max-width: 100%; height: auto; border-radius: 10px; display: block; }
+.prose blockquote {
+  margin: 1.6em 0; padding: 4px 0 4px 20px;
+  border-left: 3px solid var(--site-accent);
+  color: var(--site-muted); font-size: 1.05rem;
+}
+.prose hr { border: 0; border-top: 1px solid var(--site-line); margin: 2.5em 0; }
+.prose ul, .prose ol { padding-left: 1.3em; }
+.prose li { margin-bottom: 0.4em; }
+.prose code {
+  font-family: var(--site-mono);
+  font-size: 0.88em; background: rgba(var(--site-ink-rgb), 0.06);
+  padding: 0.15em 0.4em; border-radius: 5px;
+}
+/* --site-code-bg, not --site-ink-strong: in the dark scheme the strongest ink is nearly
+   white, and a code block drawn in it would be white-on-white. */
+.prose pre {
+  background: var(--site-code-bg); color: var(--site-text-on-dark); padding: 18px 20px;
+
+  border-radius: 12px; overflow-x: auto; font-size: 0.85rem; line-height: 1.6;
+}
+.prose pre code { background: none; padding: 0; font-size: inherit; color: inherit; }
+
+
+
+/* --- home page --------------------------------------------------------------------- */
+/* The hero itself spans the full content column so the colour wash behind it does too;
+   the text is constrained separately. */
+/* Full-height opening screen: the hero occupies everything above the first section, so
+   the scroll cue at its foot sits at the fold. 104px = the 64px sticky Toolbar plus the
+   40px top padding of .hero-wrap; svh (with a vh fallback) keeps mobile browser chrome from
+   pushing the cue out of sight. */
+.hero {
+  position: relative; text-align: center;
+  display: flex; flex-direction: column; justify-content: center;
+  min-height: calc(100vh - 104px);
+  min-height: calc(100svh - 104px);
+  padding: 40px 0 92px;
+}
+/* Above 900px the honeycomb moves alongside the copy instead of under it. `auto` on the
+   second track lets the grid keep its natural width and gives the rest to the text. */
+@media (min-width: 900px) {
+  .hero {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center; column-gap: clamp(28px, 4vw, 68px);
+  }
+  .hero-copy { grid-column: 1; }
+  .hexgrid   { grid-column: 2; }
+}
+@media (max-width: 599px) {
+  /* The Toolbar is 56px tall below the sm breakpoint. */
+  .hero { min-height: calc(100vh - 96px); min-height: calc(100svh - 96px); }
+}
+/* Honeycomb. Pointy-top cells; rows alternate between a long row and one a cell shorter,
+   the short rows inset by half a cell so the points nest.
+
+   The comb is given a width, and its cells are sized as fractions of that width, rather than
+   the width growing to fit whatever cells it holds. That inversion is what makes it scale:
+   another package changes the share each cell gets, not how much room the hero needs. R
+   chooses the shape per build and passes down the answers — --hex-cell-f and --hex-gap-f,
+   each a fraction of the comb's width — so none of that arithmetic is repeated here, and
+   nothing here can disagree with it. */
+.hexgrid {
+  /* The comb's width, named rather than left implicit in `width`, because everything else is
+     measured from it. --hex-box is the width the chosen shape would like; it is a ceiling,
+     not a promise, since below ~1200px the hero column cannot spare it. Narrowing shrinks
+     the height in step, so the proportions hold. */
+  --hex-box-w: clamp(240px, 32vw, var(--hex-box));
+  --hex-w: calc(var(--hex-box-w) * var(--hex-cell-f));
+  --hex-gap: calc(var(--hex-box-w) * var(--hex-gap-f));
+  /* 2/sqrt(3): a pointy-top hexagon is that much taller than it is wide. */
+  --hex-h: calc(var(--hex-w) * 1.1547);
+  /* What a sticker does when it is the one being looked at, whether because the pointer is
+     on it or because the idle shimmer has reached it. Named once so the two cannot drift
+     apart — a sticker should not lift differently depending on why. Scale only, no rotation:
+     a hexagon turned even three degrees stops lining up with the flat edges of the cells
+     around it, and reads as lopsided rather than playful. */
+  --hex-lift: translateY(-5px) scale(1.18);
+  width: var(--hex-box-w);
+  margin: 34px auto 0;
+}
+.hexrow { display: flex; gap: var(--hex-gap); }
+.hex {
+  flex: 0 0 auto;
+  width: var(--hex-w); height: var(--hex-h);
+  display: grid; place-items: center;
+}
+/* Rows overlap by a quarter of a cell's height, so the points interlock. margin, not
+   transform: a transformed row would become the containing block for the captions inside its
+   cells, and they would follow the row instead of sitting in the strip under the grid. */
+.hexrow + .hexrow { margin-top: calc(var(--hex-h) * -0.25 + var(--hex-gap) * 0.5); }
+/* The short rows are inset by half a cell rather than the long ones overhanging, so the comb
+   is exactly as wide as its box — no half cell of width paid for and never filled. */
+.hexrow:nth-child(even) { margin-left: calc((var(--hex-w) + var(--hex-gap)) * 0.5); }
+
+/* Captions are hidden by default, and revealed only in the two-column layout below. Anywhere
+   else they must stay out of the flow, or the description prints across its own sticker. */
+.hex-caption { display: none; }
+
+/* One shared strip under the honeycomb that each cell writes its own description into, rather
+   than a bubble per cell: a tooltip anchored to a cell in the right-hand column would run off
+   the page. Only where the hero is two columns and the pointer can hover — in the stacked
+   layout the reserved strip would be space nothing ever fills, and the hero has none to spare
+   there. */
+@media (hover: hover) and (min-width: 900px) {
+  .hexgrid { position: relative; padding-bottom: 62px; }
+  /* Kept as display:none rather than opacity or visibility: every caption occupies this one
+     strip, and leaving the idle ones laid out means a stack of overlapping text boxes that
+     some renderers paint anyway. Not laid out, nothing to paint — at the cost of a fade,
+     which a caption this small does not need. */
+  .hex-caption {
+    position: absolute; left: 0; right: 0; bottom: 0; pointer-events: none;
+    font-size: 0.8rem; line-height: 1.4; color: var(--site-muted); text-align: center;
+  }
+  .hex-caption b { color: var(--site-ink); font-weight: 600; }
+  .hex:hover .hex-caption, .hex:focus-visible .hex-caption { display: block; }
+}
+
+.hex img {
+  width: 100%; height: 100%; object-fit: contain; display: block;
+  /* Mostly grey at rest: a dozen saturated stickers next to the name shout louder than the
+     name does, but a quarter of the colour left in keeps each one recognisable. Full colour
+     is the reward for pointing at one, which also makes the comb something to sweep across
+     rather than a static logo wall. */
+  filter: grayscale(0.75); opacity: 0.6;
+  transition: filter .18s ease, opacity .18s ease, transform .18s ease;
+}
+/* Pointing anywhere at the comb pushes the rest back, so the one under the cursor is lifted
+   out of a crowd rather than merely brightened — worth more the longer the list gets.
+   `animation: none` in both rules cancels the idle shimmer: an animation outranks them in the
+   cascade, so while one ran they would have no effect. */
+.hexgrid:hover .hex img { filter: grayscale(1); opacity: 0.35; animation: none; }
+/* The lift is on the image, not the cell: a transform on the cell would make it the
+   containing block for the absolutely positioned caption inside it. */
+.hexgrid .hex:hover img, .hexgrid .hex:focus-visible img {
+  filter: none; opacity: 1; transform: var(--hex-lift); animation: none;
+}
+.hexgrid .hex:hover, .hexgrid .hex:focus-visible { z-index: 1; }
+.hex:focus-visible { outline: 2px solid var(--site-primary); outline-offset: 3px; }
+
+/* The empty slot: the one dashed hex the comb always keeps, so there is visible room for the
+   next package. Hexagon drawn by clipping the box, behind a faint +. */
+.hex-empty {
+  clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+  background: rgba(var(--site-ink-rgb), 0.045);
+  color: rgba(var(--site-ink-rgb), 0.32);
+  font-size: calc(var(--hex-w) * 0.3); line-height: 1; font-weight: 300;
+  text-decoration: none;
+  transition: background-color .18s ease, color .18s ease;
+}
+.hex-empty::after { content: "+"; }
+.hex-empty:hover { background: rgba(var(--site-ink-rgb), 0.09); color: var(--site-primary); }
+
+/* Idle shimmer: one sticker at a time comes up to full colour and lifts, the same gesture
+   hover gives it, so the comb keeps catching the eye instead of sitting dead until someone
+   points at it. One animation on every cell, phased by --i, which R scatters over the comb
+   rather than running in reading order, so the highlight hops around the block instead of
+   sweeping across it.
+
+   The cycle and the lit window are set against each other. Cells are phased 1/--hex-n apart,
+   so at eleven packages one starts every 5s, while the 4.4% window lights each for about
+   2.4s — leaving 2.6s of quiet between one sticker settling and the next lifting. Both were
+   shorter before and the highlights ran into each other, which read as restlessness rather
+   than as something catching the eye. Adding packages shortens the pause rather than the
+   highlight; past about twenty they begin to overlap again, which by then is a fuller comb
+   looking busier, not a fault. Negative delays start every cell mid-cycle, already spread
+   out. */
+@media (prefers-reduced-motion: no-preference) {
+  .hexgrid { --shimmer: 55s; }
+  .hex img {
+    animation: hex-shimmer var(--shimmer) ease-in-out infinite;
+    animation-delay: calc(var(--i) / var(--hex-n) * var(--shimmer) * -1);
+  }
+  @keyframes hex-shimmer {
+    0%, 100%   { filter: grayscale(0.75); opacity: 0.6; transform: none; }
+    1.1%, 3.3% { filter: none; opacity: 1; transform: var(--hex-lift); }
+    4.4%       { filter: grayscale(0.75); opacity: 0.6; transform: none; }
+  }
+  /* Bloom on load: the comb assembles outward from its middle, --d being each cell's distance
+     from there in cell widths. `backwards` fills the hidden state during the delay and then
+     stops applying — with `both` the cell would keep a transform for good and become the
+     containing block for its own caption. */
+  .hex {
+    animation: hex-in .45s cubic-bezier(.2, .7, .3, 1) backwards;
+    animation-delay: calc(var(--d) * 70ms);
+  }
+  @keyframes hex-in {
+    from { opacity: 0; transform: translateY(10px) scale(0.9); }
+  }
+}
+
+/* Stacked under the copy below 900px, where the comb and the text share one screen rather
+   than sitting side by side. The comb takes whatever height is left once the app bar, the
+   hero's padding and the copy have had theirs — about 550px on a phone — turned back into a
+   width by its own ratio, width being the only handle the box has. On a tall phone --hex-box
+   caps it first and this never binds; on a short one it is what keeps the scroll cue at the
+   fold. The floor stops a landscape phone collapsing it.
+
+   100vw less .wrap's 20px gutters, not 100%: a percentage would be resolved against each row,
+   and the short rows are narrowed by their own inset — which would quietly shrink every
+   second row's stickers and stop the comb tiling. */
+@media (max-width: 899px) {
+  .hexgrid {
+    --hex-box-w: min(calc(100vw - 40px), var(--hex-box),
+                     max(190px, calc((100vh - 550px) * var(--hex-aspect))));
+    --hex-box-w: min(calc(100vw - 40px), var(--hex-box),
+                     max(190px, calc((100svh - 550px) * var(--hex-aspect))));
+    margin-top: 22px;
+  }
+  .hero { padding-bottom: 78px; }
+}
+
+/* The hero's scroll cue bobs. The cue is a muiMaterial IconButton and carries the rest of
+   itself in `sx` — its position at the foot of the hero, its ring, and the reduced-motion
+   opt-out that switches this off. Only the keyframes stay here: `sx` can name an animation
+   but declaring one through it is awkward, and this is the site's one @keyframes block. */
+@keyframes hero-bob {
+  0%, 100% { transform: translateY(-2px); }
+  50%      { transform: translateY(3px); }
+}
+/* Soft colour wash instead of the old particles canvas. Each blob must reach `transparent`
+   well inside the box — a blob whose radius runs past an edge gets clipped by the box and
+   shows as a hard rectangle. Insets stay within the page so no ancestor needs
+   overflow-x:hidden, which would break the sticky app bar. */
+.hero::before {
+  content: ""; position: absolute; z-index: -1; pointer-events: none;
+  inset: -110px -20px -50px -20px;
+  /* Each blob fades out at 70% of its radius, so keeping
+     centre ± (0.7 × radius) inside 0–100% guarantees no clipped edge. */
+  background:
+    radial-gradient(38% 52% at 50% 40%, rgba(var(--site-primary-rgb), 0.15), transparent 70%);
+}
+
+
+
+/* --- keyboard and chrome ----------------------------------------------------------- */
+/* The skip link is the first thing in the tree and the first thing Tab reaches. Off the
+   canvas rather than `display:none`, which would take it out of the tab order and leave the
+   link there in name only. */
+.skip-link {
+  position: absolute; left: -9999px; top: 0; z-index: 1400;
+  padding: 10px 16px; border-radius: 0 0 10px 0;
+  background: var(--site-paper); color: var(--site-primary);
+  font-size: 0.9rem; text-decoration: none;
+}
+.skip-link:focus { left: 0; outline: 2px solid var(--site-primary); outline-offset: -2px; }
+/* <main> is given tabindex="-1" so the jump lands focus there; the ring it would otherwise
+   draw around the whole page is not telling anyone anything. */
+main:focus { outline: none; }
+
+/* The band the reader is in, marked on its tab by the scroll spy in R/boot.R. A weight and a
+   colour rather than an underline: the bar's tabs already grow a pill on hover, and a second
+   moving mark would be two things competing to say where you are. */
+.nav-tab.is-current { opacity: 1; color: var(--site-primary); font-weight: 600; }
+
+/* The timeline's marker: a dot on the rail, level with the row's title. The rail itself is a
+   1px column drawn by the component, so this only has to place the dot on it. */
+.timeline-rail::before {
+  content: ""; position: absolute; left: 50%; top: 10px;
+  width: 9px; height: 9px; margin-left: -4.5px;
+  border-radius: 50%;
+  background: var(--site-bg); border: 1px solid var(--site-accent);
+}
+
+
+/* --- the prerendered fallback ------------------------------------------------------ */
+/* The plain-HTML copy of the page written ahead of the React tree (R/fallback.R), removed on
+   mount (R/boot.R). Nobody with JavaScript sees it for more than a frame, so it is styled
+   only enough to be a readable document for everyone else — a reader without JavaScript, a
+   crawler, a reader mode. Deliberately not a second implementation of the page's design:
+   that is what would rot. */
+/* Hidden from anything that runs JavaScript, and is therefore about to be handed the
+   React page. The markup is untouched, so a crawler, an unfurler, a text browser or a
+   reader mode still reads every word of it. See R/render.R. */
+.js #site-fallback { display: none; }
+#site-fallback { max-width: 720px; margin: 0 auto; padding: 48px 20px; }
+#site-fallback h1 { font-family: var(--site-serif); font-size: 2.4rem; line-height: 1.1; margin: 0 0 12px; }
+#site-fallback h2 {
+  font-family: var(--site-serif); font-size: 1.5rem; margin: 2.4em 0 0.2em;
+  padding-bottom: 0.3em; border-bottom: 1px solid var(--site-line);
+}
+#site-fallback h3 { font-size: 1.05rem; margin: 1.8em 0 0.2em; }
+#site-fallback p { margin: 0 0 0.6em; color: var(--site-muted); }
+#site-fallback a { color: var(--site-primary); margin-right: 0.9em; }
+#site-fallback article { margin-bottom: 1.6em; }

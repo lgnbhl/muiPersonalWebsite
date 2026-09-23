@@ -1,0 +1,13 @@
+items:
+  - title: A Talk
+    event: A Meetup
+    date: 2024-05-05
+    location: Geneva
+    abstract: |
+      The first paragraph, soft
+      wrapped across two lines.
+
+      The second paragraph, with https://example.com in it.
+    links:
+      - {name: Slides, url: talks/a-talk/slides.html}
+      - {name: Nowhere, url: ""}

@@ -1,0 +1,21 @@
+title: A Test Site
+url: https://test.example.com
+description: For the config tests.
+sections:
+  - id: work
+    kicker: Things
+    title: Work
+    nav: work
+    variant: cards
+    data: content/work.yml
+    hero: true
+  - id: talks
+    kicker: Elsewhere
+    title: Talks
+    variant: accordion
+    data: content/talks.yml
+nav_links:
+  - {text: blog, href: "https://example.com/blog"}
+theme:
+  palette:
+    primary: "#000fff"

@@ -1,0 +1,20 @@
+defaults:
+  fit: contain
+  primary:   {label: Docs,   href: "/{slug}/"}
+  secondary: {label: Source, href: "https://github.com/example/{slug}"}
+items:
+  - slug: alpha
+    title: Alpha
+    description: The older one.
+    image: alpha-logo.png
+    date: 2023-01-01
+    shots:
+      - {src: "apps/{slug}/one.png", caption: The first}
+      - {src: "https://cdn.example.com/two.png"}
+      - {caption: A screenshot that names no file}
+  - slug: beta
+    title: Beta
+    description: The newer one.
+    image: https://cdn.example.com/beta.png
+    date: 2024-01-01
+    secondary: {label: Elsewhere, href: "https://example.com/beta"}

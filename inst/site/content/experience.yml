@@ -1,0 +1,30 @@
+# The experience band (`variant: timeline`). The same rows the `list` variant draws, with the
+# year pulled into a column of its own and a rule down the side — for items whose order is
+# the point.
+#
+# `date` is the role's *start*: items sort newest-first, which is the order a CV wants, and
+# only the year reaches the left column, because a column of "01 March 2023" is a column of
+# noise. The rest goes under the title, joined with · in the order it is read here:
+#
+#   meta     — the span, e.g. 2023 – present
+#   event    — the organisation
+#   location — the city
+#
+# REPLACE: these two rows are placeholders. Fill them from the CV before this is published —
+# the span, the organisation and the start date are the three that cannot be guessed.
+items:
+  - title: Scientific Collaborator
+    meta: 2023 – present
+    event: Amt für Daten und Statistik
+    location: St.Gallen, Switzerland
+    date: '2023-08-01'
+    description: Supporting the R transformation of the Statistical Office of St. Gallen.
+  - title: Data Scientist
+    meta: 2020 – 2022
+    event: The Global Fund
+    location: Geneva, Switzerland
+    date: '2020-06-01'
+    description: Built data pipelines and apps for the health financing team.
+    # Roles can carry links out, the way every other item can:
+    # links:
+    #   - {name: The team, url: "https://example.com"}

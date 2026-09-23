@@ -1,0 +1,40 @@
+# The strengths band (`variant: list`). Titles and a line of context, no pictures — a grid of
+# cards here would be a grid of mostly-empty boxes.
+#
+# No dates anywhere in this file, and that is the point: undated items sort last and the sort
+# is stable, so the order below is the order on the page. These read as a stack, from the
+# machine up to the people it is built for, and shuffling them would say something different.
+#
+# `body` rather than `description`: it is markdown, so the links sit in the sentence that
+# names them instead of in a row underneath.
+items:
+  - title: Infrastructure
+    body: >-
+      GitHub Actions workflows that run R CMD check, tests and linting on every push, then
+      rebuild and deploy sites like [SwissStatsR.org](https://swissstatsr.org).
+  - title: Backend
+    body: >-
+      REST APIs built with R plumber to serve data to my own apps, and the other side of the
+      wire too — wrapping public data services into R packages anyone can call in one line,
+      like [I14Y](/I14Y/) and [BFS](/BFS/).
+  - title: Frontend
+    body: >-
+      Shiny apps built on React — Material UI components and URL routing through the
+      [muiMaterial](/muiMaterial/) and [reactRouter](/reactRouter/) packages — that feel
+      like a web product rather than a statistics tool.
+  - title: Design
+    body: >-
+      Design systems in Shiny with [muiMaterial](/muiMaterial/) — theming, typography and
+      layout from Material UI, so an official statistics dashboard can look as considered as
+      the apps people use every day.
+  - title: Product
+    body: >-
+      Starting from the business goal rather than the dataset — who decides what with this
+      app, which question they bring to it, and what can be cut because it does not serve
+      that decision.
+  - title: Marketing
+    body: >-
+      Explaining the work to the people it is for — talks at the Swiss Statistics Meeting
+      and R user groups, tutorials on the
+      [felixanalytix YouTube channel](https://www.youtube.com/@felixanalytix), and articles
+      on the [felixanalytix blog](https://felixanalytix.substack.com).

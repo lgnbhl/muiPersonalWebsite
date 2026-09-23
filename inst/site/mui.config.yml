@@ -1,0 +1,149 @@
+# felixluginbuhl.com — the site this repository builds, and the site mui_create_site()
+# copies. It is deliberately one tree and not two: an example site kept alongside the real
+# one is an example nobody builds, and it goes stale the first time the code moves under
+# it. This one is published every push, so it cannot.
+#
+# Everything here is content or identity. The code in R/ knows how to build *a* site;
+# this file says which one. Defaults for anything omitted are in R/config.R.
+#
+# Scaffolding a copy of this: the words below are somebody else's and are meant to be
+# replaced — `hero`, `social`, `footer` and the content files are where the identity
+# lives. mui_create_site() rewrites `url` and `pages.cname` for you, and takes `twitter` out,
+# because cards credited to the wrong handle are a mistake nothing on the page would ever
+# show you. The images, logos and posters under content/assets/ are not MIT; see
+# content/LICENSE-CONTENT.md.
+
+title: Félix Luginbühl
+wordmark: felix luginbühl
+url: https://felixluginbuhl.com
+description: Data Scientist and R Developer building data tools and apps.
+twitter: "@FelixLuginbuhl"
+default_image: social-default.png
+# No `counterdev` here: this tree ships inside the package, and anybody building it to look
+# at it would be reporting their visits into this site's account. The analytics id is added
+# at publish time by .github/workflows/build-site.yaml, and only there.
+# The writing lives on Substack; this is what <head> advertises as the site's feed.
+feed: https://felixanalytix.substack.com/feed
+
+# Named the way content/assets/ holds them. Only the ones set are emitted.
+icons:
+  favicon:     favicon.ico
+  png_32:      favicon-32x32.png
+  png_16:      favicon-16x16.png
+  apple_touch: apple-touch-icon.png
+
+# GitHub Pages: the custom domain, and the marker that stops Jekyll rewriting the tree —
+# which it would, dropping the whole `_mui/` tree the build writes. `nojekyll: false` is
+# refused for that reason.
+pages:
+  cname: felixluginbuhl.com
+  nojekyll: true
+
+# The bands of the landing page, in order — and the site's single source of truth for its
+# sections. Each `id` is at once the band's element id, the anchor its app bar tab points
+# at, and what the hero's scroll cue targets, so renaming a section here moves all three.
+#
+#   kicker/title — the two or three words naming the medium, and the band's heading
+#   nav          — the tab's label. Deliberately allowed to differ from the title, because
+#                  the bar wants a short word where the band wants a full one. Omit the key
+#                  to lay a band out with no tab of its own.
+#   variant      — how to draw it; see SECTION_VARIANTS in R/page-home.R, and variants.R
+#                  beside this file for the one this site adds
+#   intro        — markdown under the heading, for a band that wants a sentence of its own
+#                  before its items. Only `intro_cards` draws it; every variant's fallback
+#                  copy carries it.
+#   data         — the content file
+#   columns      — cards only: how many stand across a medium screen (2, 3, 4 or 6)
+#   hero         — the section whose items fill the honeycomb
+sections:
+  - id: applications
+    kicker: Dashboards and websites
+    title: Applications
+    nav: apps
+    variant: showcase
+    data: content/applications.yml
+  # variant: intro_cards is this site's own — see variants.R.
+  - id: packages
+    kicker: Data tools
+    title: R packages
+    nav: tools
+    variant: intro_cards
+    intro: |
+      Each of these started as a script I got tired of rewriting — a dataset to fetch, a
+      chart to build, an interface to wire up — and ended up small enough to hand to
+      somebody else.
+    data: content/packages.yml
+    columns: 4
+    hero: true
+  - id: talks
+    kicker: Meetups and conferences
+    title: Talks
+    nav: talks
+    variant: accordion
+    data: content/talks.yml
+  # The three general variants, on the three sections that suit them: a history where the
+  # order is the point, a list with nothing to show a picture of, and a band of words.
+  - id: experience
+    kicker: Where I have worked
+    title: Experience
+    nav: work
+    variant: timeline
+    data: content/experience.yml
+  # - id: strengths
+  #   kicker: What I bring
+  #   title: Strengths
+  #   nav: strengths
+  #   variant: list
+  #   data: content/strengths.yml
+  # - id: about
+  #   kicker: Who I am
+  #   title: About
+  #   nav: about
+  #   variant: prose
+  #   data: content/about.yml
+
+# Off-site entries, appended to the bar after the section tabs.
+nav_links:
+  - {text: blog, href: https://felixanalytix.substack.com}
+
+# The footer carries all of these; the hero shows the ones named in hero_social. "Blog"
+# rather than "Substack": the reader is pointed at the writing, not at the platform.
+social:
+  - {name: GitHub,   href: "https://github.com/lgnbhl"}
+  - {name: LinkedIn, href: "https://linkedin.com/in/FelixLuginbuhl"}
+  - {name: Blog,     href: "https://felixanalytix.substack.com"}
+  - {name: YouTube,  href: "https://youtube.com/felixanalytix"}
+hero_social: [GitHub, LinkedIn, Blog, YouTube]
+
+hero:
+  greeting: "Hi, I’m"
+  name: Félix Luginbühl
+  role: Data scientist and R developer
+  lead: >-
+    I build tools and apps to automate data analysis, share insights and improve
+    decision making.
+
+# The line under the profiles. `credit` is HTML, and it points at the package's
+# repository rather than at a path on this domain: a scaffolded copy of this file is served
+# somewhere else entirely, where a link into felixluginbuhl.com would simply 404.
+footer:
+  credit: 'built with R and <a href="https://github.com/lgnbhl/muiMaterial">muiMaterial</a>'
+
+# Where the honeycomb's empty slot points. The repositories tab rather than the profile
+# root, since what the empty hex promises is more packages, not more of me.
+github_href: "https://github.com/lgnbhl?tab=repositories"
+
+theme:
+  # auto follows the reader's system setting through prefers-color-scheme alone — no toggle,
+  # so no script, no stored preference and no flash of the wrong scheme on load.
+  mode: auto
+  fonts:
+    sans: "'DM Sans', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif"
+    serif: "Fraunces, Georgia, 'Times New Roman', serif"
+  font_head: >-
+    <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect"
+    href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,500;9..144,600&display=swap">
+  # The palette is the package default — an indigo primary on a warm cream ground — so it
+  # is not repeated here.
+  # Name only the colours you change; see mui_default_config() for the full set.
