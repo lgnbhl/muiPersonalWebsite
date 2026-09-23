@@ -100,7 +100,7 @@ yours - or, when you give neither `cname` nor `url`, by the
 ``` r
 site <- file.path(tempdir(), "my-site")
 mui_create_site(site)
-#> site created in /tmp/RtmpFXli0S/my-site
+#> site created in /tmp/RtmpcbmlQo/my-site
 #>   1. edit mui.config.yml and content/*.yml
 #>   2. Rscript build.R docs
 #>   3. push, then switch on GitHub Pages for the main branch and /docs
