@@ -1,0 +1,65 @@
+# Design notes
+
+The main decisions behind the code, briefly.
+[`vignette("customising")`](https://felixluginbuhl.com/muiPersonalWebsite/articles/customising.md)
+covers every configuration key.
+
+## Static site, no server
+
+The site is plain HTML on GitHub Pages, so no `*.shinyInput()` is used.
+Stateful components keep their state in React instead:
+
+| What                        | Component                                  |
+|-----------------------------|--------------------------------------------|
+| Mobile navigation drawer    | `Drawer.triggerId()`                       |
+| Selected app and screenshot | `TabContext.static()` / `TabList.static()` |
+| Full-size screenshot        | `Dialog.triggerId()`                       |
+
+The showcase uses `defaultValue`, not `value`: without an `onChange`, a
+controlled tab never moves.
+
+## One script
+
+`R/boot.R` is the only `<script>`. It removes the prerendered fallback
+once React has mounted, and highlights the app bar tab of the band in
+view. Everything else works without JavaScript: the scroll cue is a real
+link, and dark mode is a media query.
+
+## Prerendered content
+
+React draws the whole page, so without JavaScript the `<body>` would be
+JSON. `R/fallback.R` therefore writes a plain-HTML copy of the content
+(headings, text, links) from the same items, and it is removed on mount.
+It costs a few KB. `R/seo.R` writes the `<head>` metadata, `sitemap.xml`
+and `robots.txt`.
+
+## Configuration over code
+
+Sections live in `mui.config.yml`; nothing in `R/` names one. A
+section’s `id` is its anchor, its tab target and the scroll cue target.
+Custom variants go in `variants.R` beside the config, because an
+installed package namespace is locked.
+
+## One palette
+
+Colours are defined once in `theme$palette` (roles, not hues).
+[`mui_theme()`](https://felixluginbuhl.com/muiPersonalWebsite/reference/mui_theme.md)
+feeds MUI and
+[`mui_css_root_vars()`](https://felixluginbuhl.com/muiPersonalWebsite/reference/mui_css_root_vars.md)
+emits the same values as `--site-*` CSS variables. `palette_dark` is
+merged over `palette`, so it names only what differs. Component
+overrides use `var(--site-*)`, never a hex, so they work in both
+schemes.
+
+## Icons and escaping
+
+Icons are inline SVG paths in `R/icons.R`; no icon font. Values reach
+React as JSON props, so the few places that write raw HTML use
+`attr_esc()` / `text_esc()` from `R/utils.R`. `footer.credit` and
+`theme.font_head` are written unescaped on purpose: they hold markup.
+
+## No nested links
+
+A link inside a link or a button is invalid HTML. So cards have no
+`CardActionArea`, showcase tabs render as a `div`, and the talk’s event
+link sits in the accordion panel.
