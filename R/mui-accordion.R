@@ -40,7 +40,7 @@ talk_links <- function(page) {
   c(event, Filter(function(l) !identical(l$href, page$event_url), rest))
 }
 
-# A line length for the panel's prose, in px. Not `ch`: this serif's zero is wide enough
+# A line length for the panel's prose, in px. Not `ch`: this font's zero is wide enough
 # that 68ch measures past the width the panel even has, so the cap would never bind.
 MEASURE <- 620
 

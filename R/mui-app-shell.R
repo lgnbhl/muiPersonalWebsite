@@ -62,7 +62,7 @@ mui_app_bar <- function(home = FALSE, config = mui_config()) {
         underline = "none",
         color = "inherit",
         sx = list(
-          fontFamily = font("serif", config),
+          fontFamily = font("heading", config),
           fontWeight = 600,
           fontSize = "1.05rem",
           mr = "auto"

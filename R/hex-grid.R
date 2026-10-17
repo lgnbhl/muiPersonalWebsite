@@ -87,6 +87,26 @@ mui_hex_layout <- function(n) {
   legible[[which.min(score)]]
 }
 
+# The items that become stickers - the honeycomb's cells, and the footer's row (see
+# footer_family()). An item with no image is skipped: a sticker is the one thing a cell
+# cannot do without.
+sticker_items <- function(items) {
+  Filter(
+    Negate(is.null),
+    lapply(items, function(it) {
+      if (is.null(it$image)) {
+        return(NULL)
+      }
+      list(
+        img = it$image,
+        slug = it$slug %||% it$title,
+        href = it$primary$href %||% "#",
+        desc = it$description
+      )
+    })
+  )
+}
+
 # Deal the packages into that comb in order: a package index per cell, NA for the single
 # empty slot at the end, 0 for a blank that holds a lattice position and draws nothing.
 hex_split <- function(n, lay) {
@@ -207,20 +227,7 @@ hex_cell <- function(slot, key, d, items, config = mui_config()) {
 #' @family home
 #' @keywords internal
 mui_hex_grid <- function(items, config = mui_config(), label = "Projects") {
-  items <- Filter(
-    Negate(is.null),
-    lapply(items, function(it) {
-      if (is.null(it$image)) {
-        return(NULL)
-      }
-      list(
-        img = it$image,
-        slug = it$slug %||% it$title,
-        href = it$primary$href %||% "#",
-        desc = it$description
-      )
-    })
-  )
+  items <- sticker_items(items)
   if (!length(items)) {
     return(NULL)
   }

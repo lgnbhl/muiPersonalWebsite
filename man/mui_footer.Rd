@@ -17,6 +17,10 @@ The bar above carries the sections; this carries the profiles, and \code{sitemap
 the full page list to crawlers.
 }
 \details{
+It opens the same way as the footer of the pkgdown sites of the packages: the package
+stickers in a row, then the wordmark signed with the hero's role. The stickers are the
+items of the section that fills the honeycomb, so the two cannot list different packages.
+
 Its rule, its width and its type all come from the theme rather than from the stylesheet:
 \code{divider} is the same hairline the app bar and the first band use, and \code{Container} is the
 same \code{lg} cap the bands sit in, so the footer lines up with them without repeating a

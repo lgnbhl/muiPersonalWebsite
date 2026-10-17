@@ -97,7 +97,7 @@ mui_default_config <- function() {
       mode = "auto",
       fonts = list(
         sans = "system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif",
-        serif = "Georgia, 'Times New Roman', serif",
+        heading = "Georgia, 'Times New Roman', serif",
         mono = "ui-monospace, SFMono-Regular, Menlo, Consolas, monospace"
       ),
       # Loaded in <head> before anything paints. Empty when the fonts above are all local.

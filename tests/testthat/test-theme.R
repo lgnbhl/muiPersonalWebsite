@@ -88,7 +88,7 @@ test_that("the MUI theme and the CSS custom properties agree on the palette", {
     expect_match(vars, paste0("--site-ink:", p$text$primary), fixed = TRUE)
     expect_match(vars, paste0("--site-accent:", p$kicker), fixed = TRUE)
   }
-  expect_match(vars, paste0("--site-serif:", config$theme$fonts$serif), fixed = TRUE)
+  expect_match(vars, paste0("--site-heading:", config$theme$fonts$heading), fixed = TRUE)
 })
 
 test_that("the ink is reachable at any alpha from one definition", {

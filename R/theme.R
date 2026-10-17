@@ -69,7 +69,7 @@ scheme_css_vars <- function(config, scheme = "light", fonts = TRUE) {
     "primary-rgb" = hex_channels(p$primary),
     # The ground as bare channels, for the app bar's translucent wash.
     "bg-rgb" = hex_channels(p$background),
-    if (fonts) c(sans = f$sans, serif = f$serif, mono = f$mono)
+    if (fonts) c(sans = f$sans, heading = f$heading, mono = f$mono)
   )
   # `color-scheme` is a real CSS property, not one of ours, so it alone loses the prefix.
   names <- ifelse(
@@ -154,22 +154,22 @@ mui_theme_rest <- function(f) {
     typography = list(
       fontFamily = f$sans,
       h1 = list(
-        fontFamily = f$serif,
+        fontFamily = f$heading,
         fontWeight = 600,
         letterSpacing = "-0.02em"
       ),
       h2 = list(
-        fontFamily = f$serif,
+        fontFamily = f$heading,
         fontWeight = 600,
         letterSpacing = "-0.015em"
       ),
-      h3 = list(fontFamily = f$serif, fontWeight = 600),
+      h3 = list(fontFamily = f$heading, fontWeight = 600),
       h5 = list(
         fontWeight = 600,
         fontSize = "1.05rem",
         letterSpacing = "-0.01em"
       ),
-      h6 = list(fontFamily = f$serif, fontWeight = 600),
+      h6 = list(fontFamily = f$heading, fontWeight = 600),
       button = list(textTransform = "none", fontWeight = 500),
       # Two variants of our own. Declaring them here is what lets a component ask for
       # Typography(variant = "kicker") and inherit the whole definition.

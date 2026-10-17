@@ -28,6 +28,17 @@ body {
   font-size: 17px;
   line-height: 1.7;
 }
+/* Paper grain: an inline SVG noise at ~3%, so the ground reads as paper rather than a flat
+   colour. Grey noise, so the same tile works on both schemes; on the dark one it is screened
+   in, or it would only darken what is already dark. The pkgdown sites carry the same rule.
+   The home page's bands paint the ground over the body (they cover the hero's wash), so
+   they carry the grain too; `fixed` pins every copy to the viewport, so the tiles line up
+   across a band's edge instead of showing a seam there. */
+body, .scroll-anchor {
+  background-attachment: fixed;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.05'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) { body, .scroll-anchor { background-blend-mode: screen; } }
 
 .wrap { max-width: 720px; margin: 0 auto; padding: 40px 20px 72px; }
 /* The home page's <main> has no .wrap — its bands run edge to edge — so the hero carries
@@ -40,18 +51,28 @@ body {
 /* For a page that carries its own <h1> in the body rather than in its title block. The
    body is markdown, so this is the one heading the theme's typography does not reach. */
 .prose h1 {
-  font-family: var(--site-serif); font-weight: 600;
+  font-family: var(--site-heading); font-weight: 600;
   font-size: clamp(2.1rem, 1.4rem + 2.6vw, 3.2rem);
   line-height: 1.06; letter-spacing: -0.03em; margin: 0 0 20px;
   text-align: center;
 }
-.prose h2 { font-family: var(--site-serif); font-weight: 600; font-size: 1.6rem; letter-spacing: -0.015em; margin: 2.2em 0 0.6em; }
-.prose h3 { font-family: var(--site-serif); font-weight: 600; font-size: 1.25rem; margin: 1.8em 0 0.5em; }
+.prose h2 { font-family: var(--site-heading); font-weight: 600; font-size: 1.6rem; letter-spacing: -0.015em; margin: 2.2em 0 0.6em; }
+.prose h3 { font-family: var(--site-heading); font-weight: 600; font-size: 1.25rem; margin: 1.8em 0 0.5em; }
 .prose p { margin: 0 0 1.1em; }
 /* Scoped to .prose, and it must stay that way: .prose is the one class that only ever
    wraps server-rendered markdown. A looser anchor rule reaches MUI's own components and
    repaints them — blue card text, invisible contained-button labels. */
-.prose a { color: var(--site-primary); text-underline-offset: 2px; }
+/* Highlighter links: a 2px line in the primary that fills like a marker on hover. Images
+   that are links keep their plain look. The pkgdown sites carry the same rule. */
+.prose a { color: var(--site-primary); }
+.prose a:not(:has(img)) {
+  text-decoration: none;
+  background: linear-gradient(rgba(var(--site-primary-rgb), 0.16), rgba(var(--site-primary-rgb), 0.16))
+    0 100% / 100% 2px no-repeat;
+  transition: background-size .2s ease;
+}
+.prose a:not(:has(img)):hover { background-size: 100% 100%; }
+@media (prefers-reduced-motion: reduce) { .prose a { transition: none; } }
 .prose img { max-width: 100%; height: auto; border-radius: 10px; display: block; }
 .prose blockquote {
   margin: 1.6em 0; padding: 4px 0 4px 20px;
@@ -328,9 +349,9 @@ main:focus { outline: none; }
    reader mode still reads every word of it. See R/render.R. */
 .js #site-fallback { display: none; }
 #site-fallback { max-width: 720px; margin: 0 auto; padding: 48px 20px; }
-#site-fallback h1 { font-family: var(--site-serif); font-size: 2.4rem; line-height: 1.1; margin: 0 0 12px; }
+#site-fallback h1 { font-family: var(--site-heading); font-size: 2.4rem; line-height: 1.1; margin: 0 0 12px; }
 #site-fallback h2 {
-  font-family: var(--site-serif); font-size: 1.5rem; margin: 2.4em 0 0.2em;
+  font-family: var(--site-heading); font-size: 1.5rem; margin: 2.4em 0 0.2em;
   padding-bottom: 0.3em; border-bottom: 1px solid var(--site-line);
 }
 #site-fallback h3 { font-size: 1.05rem; margin: 1.8em 0 0.2em; }

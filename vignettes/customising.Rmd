@@ -218,7 +218,7 @@ theme:
   mode: auto               # auto | light | dark
   fonts:
     sans: "'DM Sans', system-ui, sans-serif"
-    serif: "Fraunces, Georgia, serif"
+    heading: "'Space Grotesk', system-ui, sans-serif"
   font_head: '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=...">'
   palette:
     primary: "#4f46e5"

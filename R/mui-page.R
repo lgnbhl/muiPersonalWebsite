@@ -6,6 +6,10 @@
 #' The bar above carries the sections; this carries the profiles, and `sitemap.xml` carries
 #' the full page list to crawlers.
 #'
+#' It opens the same way as the footer of the pkgdown sites of the packages: the package
+#' stickers in a row, then the wordmark signed with the hero's role. The stickers are the
+#' items of the section that fills the honeycomb, so the two cannot list different packages.
+#'
 #' Its rule, its width and its type all come from the theme rather than from the stylesheet:
 #' `divider` is the same hairline the app bar and the first band use, and `Container` is the
 #' same `lg` cap the bands sit in, so the footer lines up with them without repeating a
@@ -31,6 +35,24 @@ mui_footer <- function(config = mui_config()) {
     ),
     Container(
       maxWidth = "lg",
+      footer_family(config),
+      Typography(
+        sx = list(fontSize = "0.85rem", color = "text.secondary", mb = 2.5),
+        # The app bar's wordmark, in the footer's ink.
+        Link(
+          href = paste0(site_base(config), "/"),
+          underline = "none",
+          color = "text.primary",
+          sx = list(
+            fontFamily = font("heading", config),
+            fontWeight = 600,
+            fontSize = "1.05rem",
+            "&:hover" = list(color = "primary.main")
+          ),
+          config$wordmark %||% config$title
+        ),
+        if (nzchar(config$hero$role %||% "")) paste0(" · ", config$hero$role)
+      ),
       Stack(
         component = "nav",
         `aria-label` = "Elsewhere",
@@ -60,6 +82,58 @@ mui_footer <- function(config = mui_config()) {
         ))
       )
     )
+  )
+}
+
+# The footer's row of package stickers: the honeycomb in small, grey at rest, and pointing at
+# the row pushes the rest back while the sticker under the pointer lifts. The pkgdown sites
+# of the packages open their footer with the same row. Only a section that sets `hero: true`
+# fills it - not pick_section()'s fallback to the first band, which would put apps in a row
+# of packages. The links are `Box(component = "a")` rather than `Link`, for the reason
+# hex_cell() gives.
+footer_family <- function(config = mui_config()) {
+  hero <- Filter(function(s) isTRUE(s$hero), config$sections)
+  if (!length(hero)) {
+    return(NULL)
+  }
+  items <- sticker_items(mui_read_items(hero[[1]]$data, config))
+  if (!length(items)) {
+    return(NULL)
+  }
+  Box(
+    component = "nav",
+    `aria-label` = "R packages",
+    sx = list(
+      display = "flex",
+      flexWrap = "wrap",
+      gap = "6px",
+      mb = 2,
+      "& a" = list(display = "block"),
+      "& img" = list(
+        display = "block",
+        width = 40,
+        height = "auto",
+        filter = "grayscale(0.75)",
+        opacity = 0.6,
+        transition = "filter .18s ease, opacity .18s ease, transform .18s ease",
+        "@media (prefers-reduced-motion: reduce)" = list(transition = "none")
+      ),
+      "&:hover img" = list(filter = "grayscale(1)", opacity = 0.35),
+      "& a:is(:hover, :focus-visible) img" = list(
+        filter = "none",
+        opacity = 1,
+        transform = "translateY(-5px) scale(1.18)"
+      )
+    ),
+    lapply(items, function(it) {
+      Box(
+        key = it$slug,
+        component = "a",
+        href = it$href,
+        title = it$slug,
+        Box(component = "img", src = it$img, alt = it$slug, width = 40, height = 46)
+      )
+    })
   )
 }
 

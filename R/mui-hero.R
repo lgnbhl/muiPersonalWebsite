@@ -42,12 +42,12 @@ mui_hero <- function(items = list(), config = mui_config()) {
     Box(
       className = "hero-copy",
       sx = list(width = "100%", maxWidth = 980, mx = "auto"),
-      # Serif to match the h1 it introduces, and deliberately quiet, so the name below
+      # The heading font, to match the h1 it introduces, and deliberately quiet, so the name below
       # carries the page.
       Typography(
         color = "text.secondary",
         sx = list(
-          fontFamily = font("serif", config),
+          fontFamily = font("heading", config),
           fontSize = "clamp(1.1rem, 1rem + 0.5vw, 1.45rem)",
           mb = 0.75
         ),
