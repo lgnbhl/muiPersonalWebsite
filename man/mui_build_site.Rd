@@ -29,7 +29,8 @@ against \code{input} rather than against the caller's working directory.}
 page otherwise leaves the old URL live and serving stale content, and nothing would
 report it. Only the HTML named in the previous build's manifest is considered, so an
 artefact the build does not own - a pre-rendered slide deck, a \code{copy_dirs} tree - is
-never touched.}
+never touched. Nor is \verb{assets/}: a file deleted from the assets directory stays in
+\code{out_dir} until you delete it there too, or build into an empty directory.}
 
 \item{quiet}{Suppress the per-page build report.}
 }
@@ -53,8 +54,10 @@ Building a site runs its \code{variants.R}, if it has one - see the security not
 \code{\link[=mui_read_config]{mui_read_config()}}. Build only sites whose files you trust.
 }
 \examples{
-\dontrun{
-mui_build_site("dist")  # a scratch build
-mui_build_site("docs")  # the tree GitHub Pages serves
+\donttest{
+site <- file.path(tempdir(), "example-site")
+mui_create_site(site)
+mui_build_site(file.path(site, "docs"), input = site, quiet = TRUE)
+list.files(file.path(site, "docs"))
 }
 }

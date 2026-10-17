@@ -51,7 +51,7 @@ mui_footer <- function(config = mui_config()) {
           ),
           config$wordmark %||% config$title
         ),
-        if (nzchar(config$hero$role %||% "")) paste0(" · ", config$hero$role)
+        if (nzchar(config$hero$role %||% "")) paste0(" \u00b7 ", config$hero$role)
       ),
       Stack(
         component = "nav",

@@ -19,6 +19,10 @@ date, and a card shows almost none of it. Each row is an uncontrolled Accordion,
 owns which row is open - the same way the mobile drawer does, with no server and no
 script of our own.
 }
+\examples{
+mui_accordion(list(list(title = "A talk", event = "A meetup", date = "2025-03-01",
+                        location = "Zurich", abstract = "What it was about.")))
+}
 \seealso{
 Other home: 
 \code{\link{mui_card}()},
