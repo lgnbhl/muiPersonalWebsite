@@ -107,6 +107,40 @@ sticker_items <- function(items) {
   )
 }
 
+# The footer's row: the stickers of the section that sets `hero: true`. Only that section -
+# not pick_section()'s fallback to the first band, which would put apps in a row of
+# packages. Empty without one. footer_family() and stickers_json() both go through this, so
+# the row on this site and the row next to it cannot disagree.
+hero_stickers <- function(config = mui_config()) {
+  hero <- Filter(function(s) isTRUE(s$hero), config$sections)
+  if (!length(hero)) {
+    return(list())
+  }
+  sticker_items(mui_read_items(hero[[1]]$data, config))
+}
+
+# The footer's row as data, written to stickers.json: the sites served next to this one - a
+# pkgdown reference at /<pkg>/ - read it to show the same row without a copy of the list, so
+# a new package reaches all of them with one build of this site. `img` and `href` are as the
+# footer has them, root-relative for the site's own files, so only a page on this origin can
+# use them as they stand. Always written, as "[]" when there is no row: a reader gets an
+# empty list rather than a 404, and a row that is gone does not linger from an older build.
+stickers_json <- function(config = mui_config()) {
+  rows <- vapply(
+    hero_stickers(config),
+    function(s) {
+      s <- Filter(Negate(is.null), s)
+      paste0(
+        "{",
+        paste0(json_str(names(s)), ":", vapply(s, json_str, character(1)), collapse = ","),
+        "}"
+      )
+    },
+    character(1)
+  )
+  paste0("[", paste(rows, collapse = ","), "]")
+}
+
 # Deal the packages into that comb in order: a package index per cell, NA for the single
 # empty slot at the end, 0 for a blank that holds a lattice position and draws nothing.
 hex_split <- function(n, lay) {

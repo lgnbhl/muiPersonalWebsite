@@ -87,16 +87,11 @@ mui_footer <- function(config = mui_config()) {
 
 # The footer's row of package stickers: the honeycomb in small, grey at rest, and pointing at
 # the row pushes the rest back while the sticker under the pointer lifts. The pkgdown sites
-# of the packages open their footer with the same row. Only a section that sets `hero: true`
-# fills it - not pick_section()'s fallback to the first band, which would put apps in a row
-# of packages. The links are `Box(component = "a")` rather than `Link`, for the reason
-# hex_cell() gives.
+# of the packages open their footer with the same row, read from stickers.json. Which items
+# fill it is hero_stickers()'s call. The links are `Box(component = "a")` rather than
+# `Link`, for the reason hex_cell() gives.
 footer_family <- function(config = mui_config()) {
-  hero <- Filter(function(s) isTRUE(s$hero), config$sections)
-  if (!length(hero)) {
-    return(NULL)
-  }
-  items <- sticker_items(mui_read_items(hero[[1]]$data, config))
+  items <- hero_stickers(config)
   if (!length(items)) {
     return(NULL)
   }

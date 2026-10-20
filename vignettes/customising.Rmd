@@ -106,7 +106,7 @@ sections:
 | `kicker`, `title` | Small label and heading. |
 | `nav` | App bar label. Omit for no tab. |
 | `columns` | `cards` only: 2, 3, 4 or 6. |
-| `hero` | This section's items fill the hero honeycomb. At most one. |
+| `hero` | This section's items fill the hero honeycomb and the footer's row, which the build also writes to `stickers.json` (`slug`, `href`, `img`, `desc`). At most one. |
 
 Extra app bar links:
 

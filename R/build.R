@@ -2,8 +2,11 @@
 
 #' Build the site
 #'
-#' Renders the site into `out_dir`: the landing page, the 404 page, the assets tree, and the
-#' sitemap and robots files.
+#' Renders the site into `out_dir`: the landing page, the 404 page, the assets tree, the
+#' sitemap and robots files, and `stickers.json` - the footer's row of the `hero: true`
+#' section as data, for sites served next to this one (a pkgdown reference at `/<pkg>/`) to
+#' show the same row. Its `img` and `href` are root-relative for the site's own files, so
+#' they resolve only on this site's origin. With no such section it is `[]`.
 #'
 #' The site is one landing page. Each `sections` entry in the configuration names a YAML
 #' content file, and the home page lays those out as bands - there are no section index
@@ -175,6 +178,7 @@ mui_build_site <- function(
     file.path(out_dir, "sitemap.xml")
   )
   write_utf8(mui_robots_txt(config), file.path(out_dir, "robots.txt"))
+  write_utf8(stickers_json(config), file.path(out_dir, "stickers.json"))
 
   if (!quiet) {
     message(sprintf("built %d pages -> %s", length(built), out_dir))

@@ -38,8 +38,11 @@ never touched. Nor is \verb{assets/}: a file deleted from the assets directory s
 The built pages, invisibly: one list per page, each carrying its \code{url} and \code{out}.
 }
 \description{
-Renders the site into \code{out_dir}: the landing page, the 404 page, the assets tree, and the
-sitemap and robots files.
+Renders the site into \code{out_dir}: the landing page, the 404 page, the assets tree, the
+sitemap and robots files, and \code{stickers.json} - the footer's row of the \code{hero: true}
+section as data, for sites served next to this one (a pkgdown reference at \verb{/<pkg>/}) to
+show the same row. Its \code{img} and \code{href} are root-relative for the site's own files, so
+they resolve only on this site's origin. With no such section it is \verb{[]}.
 }
 \details{
 The site is one landing page. Each \code{sections} entry in the configuration names a YAML

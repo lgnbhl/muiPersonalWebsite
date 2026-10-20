@@ -424,3 +424,27 @@ test_that("a build copies each dependency once, not once per page", {
   # Nothing is remembered once the build is over.
   expect_null(muiPersonalWebsite:::the$deps_done)
 })
+
+test_that("stickers.json carries the footer's row for the sites next to this one", {
+  skip_without_content()
+  skip_if_not_installed("jsonlite")
+  rows <- jsonlite::fromJSON(file.path(built_site(), "stickers.json"), simplifyVector = FALSE)
+  config <- mui_read_config(file.path(site_root(), "mui.config.yml"))
+  hero <- Filter(function(s) isTRUE(s$hero), config$sections)[[1]]
+  want <- sticker_items(mui_read_items(file.path(site_root(), hero$data), config))
+  expect_gt(length(rows), 0L)
+  expect_identical(
+    vapply(rows, function(r) r$slug, character(1)),
+    vapply(want, function(s) s$slug, character(1))
+  )
+  for (r in rows) {
+    expect_true(all(c("slug", "href", "img") %in% names(r)), info = r$slug)
+  }
+})
+
+test_that("stickers.json is an empty list when no section sets hero", {
+  config <- mui_default_config()
+  config$sections <- list(list(id = "apps", data = "unused.yml"))
+  expect_identical(stickers_json(config), "[]")
+  expect_null(footer_family(config))
+})
